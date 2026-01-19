@@ -5,8 +5,8 @@ import { GenerationResponse, ProductID } from "../types";
 export const generateMarketingContent = async (theme: string, subthemes: string): Promise<GenerationResponse> => {
   
   
-  const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_API_KEY || '' });
-  
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || 'AIzaSyC8CMtxUq3dff3tm0qAoTUxBnJspOaYR7o' });
+
   const prompt = `
     Atue como o "goFlux Content Engine", um redator sênior especializado em Logtech, Fintech e Sustentabilidade para o setor de transporte rodoviário de cargas.
     
