@@ -3,10 +3,6 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { GenerationResponse, ProductID } from "../types";
 
 export const generateMarketingContent = async (theme: string, subthemes: string): Promise<GenerationResponse> => {
-  
-  / ADICIONE ESTA LINHA AQUI:
-  console.log("DEBUG: Minha chave começa com:", process.env.API_KEY?.substring(0, 4));
-
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
   
   const prompt = `
