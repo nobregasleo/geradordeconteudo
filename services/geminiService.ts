@@ -2,30 +2,32 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { GenerationResponse, ProductID } from "../types";
 
-export const generateMarketingContent = async (theme: string, subthemes: string): Promise<GenerationResponse> => {
-  
-  
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || 'AIzaSyC8CMtxUq3dff3tm0qAoTUxBnJspOaYR7o' });
+export const generateMarketingContent = async (
+  theme: string, 
+  subthemes: string, 
+  productConfigs: Record<string, string>
+): Promise<GenerationResponse> => {
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+
+  const productContext = Object.entries(productConfigs)
+    .map(([id, desc]) => `${id}: ${desc}`)
+    .join('\n');
 
   const prompt = `
     Atue como o "goFlux Content Engine", um redator sênior especializado em Logtech, Fintech e Sustentabilidade para o setor de transporte rodoviário de cargas.
     
     TEMA CENTRAL: ${theme}
-    SUBTEMAS POR PRODUTO: ${subthemes}
+    SUBTEMAS ADICIONAIS: ${subthemes}
     
-    Gere conteúdos de marketing para os 5 produtos goFlux:
-    1. Club (Hub para transportadoras): Comunidade, benefícios, rede de contatos.
-    2. carbonFree (Compensação): ESG, frete verde, diferencial competitivo.
-    3. goFlux SAAS (Plataforma): Digitalização, transparência, redução de custos.
-    4. naConta (Banco): Fluxo de caixa, crédito justo, facilidade financeira.
-    5. View (IA): Futuro, análise preditiva, dados.
+    CONTEXTO DOS PRODUTOS (USE ESTAS DESCRIÇÕES COMO BASE):
+    ${productContext}
+
+    Instruções de Saída: Para cada um dos produtos acima, gere 3 formatos de conteúdo (E-mail Marketing, Post de Rede Social e Artigo de Blog), seguindo as premissas de tom profissional, inovador e humano.
 
     Para cada produto, forneça:
     - E-mail Marketing (Assunto curto e impactante; Corpo com Dor > Solução > CTA).
     - Redes Sociais (Texto da Arte curto; Legenda com hashtags e CTA).
     - Artigo de Blog (Título SEO; Resumo em 3 tópicos).
-
-    O tom deve ser profissional, inovador, focado em dados e humano.
   `;
 
   const response = await ai.models.generateContent({
@@ -41,8 +43,8 @@ const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || 'AIzaSyC8CMtxUq3dff3
             items: {
               type: Type.OBJECT,
               properties: {
-                id: { type: Type.STRING, description: "O nome técnico do produto (ex: Club, carbonFree, etc)" },
-                name: { type: Type.STRING, description: "Nome legível do produto" },
+                id: { type: Type.STRING },
+                name: { type: Type.STRING },
                 content: {
                   type: Type.OBJECT,
                   properties: {
@@ -80,7 +82,9 @@ const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || 'AIzaSyC8CMtxUq3dff3
   });
 
   try {
-    const data = JSON.parse(response.text || '{}');
+    const text = response.text;
+    if (!text) throw new Error("Empty response from AI");
+    const data = JSON.parse(text);
     return data as GenerationResponse;
   } catch (error) {
     console.error("Failed to parse Gemini response:", error);
