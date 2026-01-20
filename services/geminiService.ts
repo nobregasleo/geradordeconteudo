@@ -7,7 +7,7 @@ export const generateMarketingContent = async (
   subthemes: string, 
   productConfigs: Record<string, string>
 ): Promise<GenerationResponse> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || 'AIzaSyC8CMtxUq3dff3tm0qAoTUxBnJspOaYR7o' });
 
   const productContext = Object.entries(productConfigs)
     .map(([id, desc]) => `${id}: ${desc}`)
