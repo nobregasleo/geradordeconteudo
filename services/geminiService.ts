@@ -12,7 +12,7 @@ export const generateMarketingContent = async (
   selectedPersonaFilter: Persona | 'none',
   modificationInstruction?: string // New optional parameter
 ): Promise<GenerationResponse> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || 'AIzaSyC8CMtxUq3dff3tm0qAoTUxBnJspOaYR7o' });
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || 'AIzaSyCA7NeE2SdGnHoZhV8_LU64PTHGUdguZMs' });
 
   // Filter products based on selection
   const productsToGenerateFor = selectedProductIDs === 'all'
