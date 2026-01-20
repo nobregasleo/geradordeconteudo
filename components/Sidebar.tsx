@@ -1,20 +1,19 @@
 
+
 import React from 'react';
-import { GOFLUX_PRODUCTS, ProductID } from '../types';
+import { GOFLUX_PRODUCTS, ProductID, GOFLUX_CHANNELS, ChannelID } from '../types';
 
 interface SidebarProps {
-  activeView: 'generator' | ProductID;
-  onNavigate: (view: 'generator' | ProductID) => void;
+  activeView: 'generator' | ProductID | ChannelID; // Reverted type
+  onNavigate: (view: 'generator' | ProductID | ChannelID) => void; // Reverted type
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ activeView, onNavigate }) => {
   return (
     <div className="w-64 bg-slate-900 h-screen fixed left-0 top-0 text-white p-6 flex flex-col hidden md:flex">
       <div className="mb-10 flex items-center gap-3">
-        <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-          <i className="fas fa-flux-capacitor text-xl"></i>
-        </div>
-        <h1 className="text-xl font-bold tracking-tight">goFlux <span className="text-blue-500">Engine</span></h1>
+        {/* Removed the blue square div */}
+        <h1 className="text-xl font-bold tracking-tight">go<span className="text-red-500">Flow</span></h1> {/* Changed title and color */}
       </div>
       
       <nav className="flex-1 space-y-2">
@@ -28,7 +27,9 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onNavigate }) => {
           <span className="text-sm font-bold">Gerador</span>
         </div>
 
-        <div className="px-2 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Configurar Produtos</div>
+        {/* Removed: New item for Content Revisor */}
+
+        <div className="px-2 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mt-6">Configurar Produtos</div>
         {GOFLUX_PRODUCTS.map((prod) => (
           <div 
             key={prod.id}
@@ -41,12 +42,24 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onNavigate }) => {
             <span className="text-sm font-medium">{prod.label}</span>
           </div>
         ))}
+
+        {/* New section for channels */}
+        <div className="px-2 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mt-6">Configurar Canais</div>
+        {GOFLUX_CHANNELS.map((channel) => (
+          <div 
+            key={channel.id}
+            onClick={() => onNavigate(channel.id)}
+            className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition-all ${
+              activeView === channel.id ? 'bg-slate-700 text-purple-400 border-l-4 border-purple-500' : 'text-slate-300 hover:text-white hover:bg-slate-800'
+            }`}
+          >
+            <i className={`fas ${channel.icon} w-5`}></i>
+            <span className="text-sm font-medium">{channel.label}</span>
+          </div>
+        ))}
       </nav>
 
-      <div className="mt-auto p-4 bg-slate-800 rounded-xl">
-        <p className="text-xs text-slate-400">Logado como</p>
-        <p className="text-sm font-medium">Redator Sênior</p>
-      </div>
+      
     </div>
   );
 };
