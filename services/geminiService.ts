@@ -12,10 +12,16 @@ export const generateMarketingContent = async (
   selectedPersonaFilter: Persona | 'none',
   modificationInstruction?: string // New optional parameter
 ): Promise<GenerationResponse> => {
-  if (!process.env.API_KEY) {
-  throw new Error("Erro: A variável de ambiente API_KEY não foi encontrada.");
+  // geminiService.ts
+
+// Tentamos ler a chave com o prefixo público necessário para a Vercel
+const key = process.env.NEXT_PUBLIC_API_KEY;
+
+if (!key) {
+  throw new Error("Erro: A variável NEXT_PUBLIC_API_KEY não foi encontrada. Verifique as configurações na Vercel.");
 }
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+const ai = new GoogleGenAI({ apiKey: key });
 
   // Filter products based on selection
   const productsToGenerateFor = selectedProductIDs === 'all'
