@@ -193,7 +193,7 @@ export default async function handler(req: Request) {
     };
 
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash", // Recommended model for basic text tasks
+      model: "gemini-3-flash-preview", // CORRIGIDO: Usando o modelo recomendado de acordo com as diretrizes.
       contents: prompt,
       config: {
         responseMimeType: "application/json",
