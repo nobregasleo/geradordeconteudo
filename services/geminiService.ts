@@ -14,6 +14,10 @@ export const generateMarketingContent = async (
 ): Promise<GenerationResponse> => {
   // geminiService.ts
 
+// Adicione isto para ver o que está acontecendo no console do navegador
+console.log("Ambiente:", process.env.NODE_ENV);
+console.log("Chave configurada?", !!process.env.NEXT_PUBLIC_API_KEY);
+
 // Tentamos ler a chave com o prefixo público necessário para a Vercel
 const key = process.env.NEXT_PUBLIC_API_KEY;
 
