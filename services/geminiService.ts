@@ -18,7 +18,7 @@ export const generateMarketingContent = async (
 const key = process.env.NEXT_PUBLIC_API_KEY;
 
 if (!key) {
-  throw new Error("Erro: A variável NEXT_PUBLIC_API_KEY não foi encontrada. Verifique as configurações na Vercel.");
+  throw new Error("DEBUG_001: Chave NEXT_PUBLIC_ não encontrada");
 }
 
 const ai = new GoogleGenAI({ apiKey: key });
