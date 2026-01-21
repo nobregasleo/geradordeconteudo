@@ -12,20 +12,12 @@ export const generateMarketingContent = async (
   selectedPersonaFilter: Persona | 'none',
   modificationInstruction?: string // New optional parameter
 ): Promise<GenerationResponse> => {
-  // geminiService.ts
-
-// Adicione isto para ver o que está acontecendo no console do navegador
-console.log("Ambiente:", process.env.NODE_ENV);
-console.log("Chave configurada?", !!process.env.NEXT_PUBLIC_API_KEY);
-
-// Tentamos ler a chave com o prefixo público necessário para a Vercel
-const key = process.env.NEXT_PUBLIC_API_KEY;
-
-if (!key) {
-  throw new Error("DEBUG_001: Chave NEXT_PUBLIC_ não encontrada");
-}
-
-const ai = new GoogleGenAI({ apiKey: key });
+  // Conforme as diretrizes, a chave da API DEVE ser obtida exclusivamente de process.env.API_KEY.
+  // Em uma aplicação puramente frontend, esta chave seria visível no código-fonte do navegador.
+  // Para verdadeira segurança, uma rota de API no backend (servidor) é o método recomendado.
+  // No contexto desta ferramenta que gera apenas frontend, assumimos que process.env.API_KEY
+  // é injetada no bundle da aplicação pelo ambiente de build.
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
   // Filter products based on selection
   const productsToGenerateFor = selectedProductIDs === 'all'
