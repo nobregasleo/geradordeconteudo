@@ -1,3 +1,4 @@
+
 // services/geminiService.ts
 import { GenerationResponse } from "../types";
 
@@ -33,5 +34,12 @@ export const generateMarketingContent = async (
     throw new Error(errorData.error || "Falha na geração via servidor");
   }
 
-  return await response.json();
+  const rawText = await response.text(); // Lê como texto puro primeiro
+
+  try {
+    return JSON.parse(rawText); // Tenta converter manualmente
+  } catch (e) {
+    console.error("Resposta inválida do servidor:", rawText);
+    throw new Error("O servidor retornou um formato inválido. Tente selecionar menos produtos por vez.");
+  }
 };

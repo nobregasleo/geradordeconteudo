@@ -193,11 +193,13 @@ export default async function handler(req: Request) {
     };
 
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview", // CORRIGIDO: Usando o modelo recomendado de acordo com as diretrizes.
+      model: "gemini-3-flash-preview", // Usando o modelo recomendado de acordo com as diretrizes.
       contents: prompt,
       config: {
         responseMimeType: "application/json",
-        responseSchema: responseSchema
+        responseSchema: responseSchema,
+        maxOutputTokens: 2048, // Adicionado para aumentar o limite de tokens de saída
+        temperature: 0.7,      // Adicionado para um equilíbrio entre criatividade e coerência
       }
     });
 
