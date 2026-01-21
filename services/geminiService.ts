@@ -12,7 +12,10 @@ export const generateMarketingContent = async (
   selectedPersonaFilter: Persona | 'none',
   modificationInstruction?: string // New optional parameter
 ): Promise<GenerationResponse> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || 'AIzaSyCA7NeE2SdGnHoZhV8_LU64PTHGUdguZMs' });
+  if (!process.env.API_KEY) {
+  throw new Error("Erro: A variável de ambiente API_KEY não foi encontrada.");
+}
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
   // Filter products based on selection
   const productsToGenerateFor = selectedProductIDs === 'all'
